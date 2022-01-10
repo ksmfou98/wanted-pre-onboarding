@@ -1,11 +1,18 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import HeaderButtonGroup from "./HeaderButtonGroup";
+import HeaderLogo from "./HeaderLogo";
+import HeaderMenuList from "./HeaderMenuList";
 
 function Header(): ReactElement {
   return (
     <HeaderBlock>
       <HeaderInner>
-        <HeaderNav>Header</HeaderNav>
+        <HeaderNav>
+          <HeaderLogo />
+          <HeaderMenuList />
+          <HeaderButtonGroup />
+        </HeaderNav>
       </HeaderInner>
     </HeaderBlock>
   );
@@ -28,6 +35,7 @@ const HeaderNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 `;
 
 export default Header;
