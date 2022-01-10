@@ -11,11 +11,13 @@ function TopBanner(): ReactElement {
   return (
     <TopBannerBlock>
       <BannerImageList />
+
       <ArrowButtonStyled direction="left">
         <IconBox>
           <ArrowLeftIcon />
         </IconBox>
       </ArrowButtonStyled>
+
       <ArrowButtonStyled direction="right">
         <IconBox>
           <ArrowRightIcon />
