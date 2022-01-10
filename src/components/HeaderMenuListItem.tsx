@@ -1,6 +1,7 @@
 import { IHeaderMenuItem } from "lib/headerMenus";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import HeaderMenuIcon from "./HeaderMenuIcon";
 
 interface HeaderMenuListItemProps {
   menuItem: IHeaderMenuItem;
@@ -13,7 +14,12 @@ function HeaderMenuListItem({
 
   return (
     <HeaderMenuListItemStyled>
-      <MenuLinked href="#">{name}</MenuLinked>
+      <MenuLinked href="#">
+        {name}
+        <MenuIcon>
+          <HeaderMenuIcon icon={icon} />
+        </MenuIcon>
+      </MenuLinked>
     </HeaderMenuListItemStyled>
   );
 }
@@ -32,6 +38,12 @@ const MenuLinked = styled.a`
   padding: 15px;
   display: inline-block;
   color: #444444;
+`;
+
+const MenuIcon = styled.div`
+  position: absolute;
+  top: 10px;
+  right: -5px;
 `;
 
 export default HeaderMenuListItem;
