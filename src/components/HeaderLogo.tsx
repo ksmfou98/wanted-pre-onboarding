@@ -32,12 +32,12 @@ const LogoIcon = styled.img`
 `;
 
 const LogoText = styled.span`
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 700;
   height: 17px;
   color: #403f3f;
   font-family: "roboto";
-  line-height: 14px;
+  line-height: 18px;
 `;
 
 export default HeaderLogo;

@@ -22,6 +22,10 @@ function HeaderButtonGroup(): ReactElement {
             <ProfileImg src="https://k.kakaocdn.net/dn/LQGNu/btrgBidLBMu/XrVCvlaiOEJObmKuuKFW0K/img_110x110.jpg" />
           </ProfileBox>
         </ButtonItemStyled>
+
+        <CompanyServiceLinkedBox>
+          <CompanyServiceLinked href="#">기업 서비스</CompanyServiceLinked>
+        </CompanyServiceLinkedBox>
       </ButtonListStyled>
     </HeaderButtonGroupBlock>
   );
@@ -39,7 +43,7 @@ const ButtonListStyled = styled.div`
   }
   .profile {
     margin-top: 0;
-    margin-right: 11px;
+    margin-right: 16px;
     padding: 0;
   }
 `;
@@ -50,7 +54,7 @@ const ButtonItemStyled = styled.button`
   height: 100%;
   vertical-align: middle;
   padding: 0 10px;
-  margin-top: 5px;
+  margin-top: 3px;
 `;
 
 const NewCircleStyled = styled.span`
@@ -82,6 +86,31 @@ const ProfileImg = styled.img`
   width: 28px;
   height: 28px;
   border-radius: 50%;
+`;
+
+const CompanyServiceLinkedBox = styled.div`
+  display: flex;
+  align-items: center;
+  &::before {
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #e1e2e3;
+    margin: auto 10px;
+  }
+`;
+
+const CompanyServiceLinked = styled.a`
+  font-size: 13px;
+  color: #666;
+  line-height: 30px;
+  height: 30px;
+  border: 1px solid #e1e2e3;
+  border-radius: 15px;
+  padding: 0 10px;
+  margin-left: 15px;
+  font-weight: 400;
 `;
 
 export default HeaderButtonGroup;

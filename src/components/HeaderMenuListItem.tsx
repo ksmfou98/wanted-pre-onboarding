@@ -16,7 +16,7 @@ function HeaderMenuListItem({
     <HeaderMenuListItemStyled>
       <MenuLinked href="#">
         {name}
-        <MenuIcon>
+        <MenuIcon isBeta={icon === "beta"}>
           <HeaderMenuIcon icon={icon} />
         </MenuIcon>
       </MenuLinked>
@@ -40,10 +40,10 @@ const MenuLinked = styled.a`
   color: #444444;
 `;
 
-const MenuIcon = styled.div`
+const MenuIcon = styled.div<{ isBeta: boolean }>`
   position: absolute;
   top: 10px;
-  right: -5px;
+  right: ${({ isBeta }) => (isBeta ? "-7px" : "-5px")};
 `;
 
 export default HeaderMenuListItem;
