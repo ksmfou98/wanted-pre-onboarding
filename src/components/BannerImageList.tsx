@@ -29,26 +29,34 @@ function BannerImageList(): ReactElement {
     setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
   };
 
+  const [isAnimation, setIsAnimaion] = useState(true);
+
   useEffect(() => {
     if (!slideRef.current) return;
-    if (currentSlide === bannerImages.length + 1) {
-      setCurrentSlide(SHOW_SLIDE_LENGTH);
-      slideRef.current.style.left = "-17344px";
+    if (
+      currentSlide === bannerImages.length + 1 ||
+      currentSlide * -1 === bannerImages.length - 1
+    ) {
+      setTimeout(() => {
+        setIsAnimaion(false);
+        if (slideRef.current) {
+          slideRef.current.style.left = "-17344px";
+        }
+        setCurrentSlide(SHOW_SLIDE_LENGTH);
+      }, 500);
+      setTimeout(() => {
+        setIsAnimaion(true);
+      }, 600);
     }
-    if (currentSlide * -1 === bannerImages.length - 1) {
-      slideRef.current.style.left = "-17344px";
-      setCurrentSlide(SHOW_SLIDE_LENGTH);
-    }
-    // slideRef.current.style.transition = "all 0.5s ease-in-out";
+
     slideRef.current.style.transform = `translateX(${
       -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
     }px)`;
   }, [currentSlide]);
-  console.log(currentSlide);
 
   return (
     <BannerImageListContainer>
-      <ImageListBox ref={slideRef}>
+      <ImageListBox ref={slideRef} isAnimation={isAnimation}>
         <ImageList>
           {bannerImageList.map((image, index) => (
             <BannerImageListItem key={index} imageItem={image} />
@@ -79,10 +87,11 @@ const BannerImageListContainer = styled.div`
   height: 350px;
 `;
 
-const ImageListBox = styled.div`
+const ImageListBox = styled.div<{ isAnimation: boolean }>`
   width: 100%;
   position: absolute;
   left: -17344px;
+  ${({ isAnimation }) => isAnimation && "transition: all 0.5s ease-in-out"};
 `;
 
 const ImageList = styled.div`
