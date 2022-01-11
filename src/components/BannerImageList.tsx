@@ -47,15 +47,21 @@ function BannerImageList(): ReactElement {
   useEffect(() => {
     if (!slideRef.current) return;
     if (currentSlide === bannerImages.length + 1) {
-      slideRef.current.style.left = "-9756px";
+      slideRef.current.style.left = "-17344px";
       setCurrentSlide(SHOW_SLIDE_LENGTH);
     }
-    // transition: transform 200ms all 0.5s ease-in-out
+
+    if (currentSlide * -1 === bannerImages.length - 1) {
+      slideRef.current.style.left = "-17344px";
+      setCurrentSlide(SHOW_SLIDE_LENGTH);
+    }
+    // 9756 11924
     // slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(${
       -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
     }px)`;
   }, [currentSlide]);
+  console.log(currentSlide);
 
   return (
     <BannerImageListContainer>
@@ -93,7 +99,7 @@ const BannerImageListContainer = styled.div`
 const ImageListBox = styled.div`
   width: 100%;
   position: absolute;
-  left: -9756px;
+  left: -17344px;
 `;
 
 const ImageList = styled.div`
