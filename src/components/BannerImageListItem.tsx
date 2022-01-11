@@ -49,7 +49,9 @@ const ItemBox = styled.div`
   position: relative;
 `;
 
-const ItemImage = styled.img``;
+const ItemImage = styled.img`
+  border-radius: 4px;
+`;
 
 const ItemInformationBox = styled.div`
   position: absolute;
