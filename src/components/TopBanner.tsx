@@ -11,10 +11,8 @@ function TopBanner(): ReactElement {
 }
 
 const TopBannerBlock = styled.div`
-  padding-top: 25px;
-  width: 1084px;
-  margin: 0 auto;
-  position: relative;
+  width: 100%;
+  overflow: hidden;
 `;
 
 export default TopBanner;

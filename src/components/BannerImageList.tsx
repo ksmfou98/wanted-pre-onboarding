@@ -54,14 +54,14 @@ function BannerImageList(): ReactElement {
   }, [currentSlide]);
 
   return (
-    <>
-      <BannerImageListBlock ref={slideRef}>
+    <BannerImageListContainer>
+      <ImageListBox ref={slideRef}>
         <ImageList>
           {bannerImageList.map((image, index) => (
             <BannerImageListItem key={index} imageItem={image} />
           ))}
         </ImageList>
-      </BannerImageListBlock>
+      </ImageListBox>
 
       <ArrowButtonStyled direction="left" onClick={onBackSlide}>
         <IconBox>
@@ -74,15 +74,21 @@ function BannerImageList(): ReactElement {
           <ArrowRightIcon />
         </IconBox>
       </ArrowButtonStyled>
-    </>
+    </BannerImageListContainer>
   );
 }
 
-const BannerImageListBlock = styled.div`
+const BannerImageListContainer = styled.div`
+  padding-top: 25px;
+  width: 1084px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const ImageListBox = styled.div`
   width: 100%;
-  position: absolute;
-  width: 100%;
-  left: -9756px;
+  /* position: absolute;
+  left: -9756px; */
 `;
 
 const ImageList = styled.div`
