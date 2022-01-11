@@ -2,7 +2,6 @@ import { ArrowLeftIcon, ArrowRightIcon } from "assets/icons";
 import { bannerImages } from "lib/bannerImages";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { idText } from "typescript";
 import BannerImageListItem from "./BannerImageListItem";
 
 interface IButtonDirection {
@@ -23,39 +22,23 @@ function BannerImageList(): ReactElement {
   const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH);
 
   const onNextSlide = () => {
-    // bannerImageList의 맨 앞에 요소를 지우고 맨 뒤에 요소로 추가한다.
-
     setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
-
-    // setTimeout(() => {
-    //   setBannerImageList([...bannerImageList.slice(1), bannerImageList[0]]);
-    // }, 1000);
   };
 
   const onBackSlide = () => {
-    // bannerImageList의 맨 뒤에 요소를 지우고 맨 앞에 요소로 추가한다.
-    // setTimeout(() => {
-    //   setBannerImageList([
-    //     bannerImageList[bannerImageList.length - 1],
-    //     ...bannerImageList.slice(0, bannerImageList.length - 1),
-    //   ]);
-    // }, 1000);
-
     setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
   };
 
   useEffect(() => {
     if (!slideRef.current) return;
     if (currentSlide === bannerImages.length + 1) {
-      slideRef.current.style.left = "-17344px";
       setCurrentSlide(SHOW_SLIDE_LENGTH);
+      slideRef.current.style.left = "-17344px";
     }
-
     if (currentSlide * -1 === bannerImages.length - 1) {
       slideRef.current.style.left = "-17344px";
       setCurrentSlide(SHOW_SLIDE_LENGTH);
     }
-    // 9756 11924
     // slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(${
       -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
