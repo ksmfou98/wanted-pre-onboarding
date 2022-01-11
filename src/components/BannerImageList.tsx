@@ -38,23 +38,6 @@ function BannerImageList(): ReactElement {
     setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
   }, [currentSlide]);
 
-  // const onAutoSlide = useCallback(() => {
-  //   console.log("dd");
-  //   if (timer === undefined) {
-  //     setTimer(
-  //       setInterval(() => {
-  //         onNextSlide();
-  //       }, 3000)
-  //     );
-  //   }
-  // }, [onNextSlide, timer]);
-
-  // const onStopAutoSlide = useCallback(() => {
-  //   console.log("xx");
-  //   clearInterval(timer);
-  //   setTimer(undefined);
-  // }, [timer]);
-
   useEffect(() => {
     if (!slideRef.current) return;
     if (
