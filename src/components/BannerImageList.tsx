@@ -142,7 +142,7 @@ const ArrowButtonStyled = styled.button<IButtonDirection>`
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 120px;
+  top: 145px;
   width: 30px;
   height: 60px;
   opacity: 0.5;
