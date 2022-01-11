@@ -1,6 +1,13 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "assets/icons";
 import { bannerImages } from "lib/bannerImages";
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import styled, { css } from "styled-components";
 import BannerImageListItem from "./BannerImageListItem";
 
@@ -12,6 +19,8 @@ function BannerImageList(): ReactElement {
   const [bannerImageList, setBannerImageList] = useState(
     bannerImages.sort(() => Math.random() - 0.5)
   );
+  const [isAnimation, setIsAnimaion] = useState(true);
+  const [isFlowing, setIsFlowing] = useState(false);
 
   useEffect(() => {
     setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
@@ -21,15 +30,30 @@ function BannerImageList(): ReactElement {
   const SHOW_SLIDE_LENGTH = 1;
   const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH);
 
-  const onNextSlide = () => {
+  const onNextSlide = useCallback(() => {
     setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
-  };
+  }, [currentSlide]);
 
-  const onBackSlide = () => {
+  const onBackSlide = useCallback(() => {
     setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
-  };
+  }, [currentSlide]);
 
-  const [isAnimation, setIsAnimaion] = useState(true);
+  // const onAutoSlide = useCallback(() => {
+  //   console.log("dd");
+  //   if (timer === undefined) {
+  //     setTimer(
+  //       setInterval(() => {
+  //         onNextSlide();
+  //       }, 3000)
+  //     );
+  //   }
+  // }, [onNextSlide, timer]);
+
+  // const onStopAutoSlide = useCallback(() => {
+  //   console.log("xx");
+  //   clearInterval(timer);
+  //   setTimer(undefined);
+  // }, [timer]);
 
   useEffect(() => {
     if (!slideRef.current) return;
@@ -54,9 +78,24 @@ function BannerImageList(): ReactElement {
     }px)`;
   }, [currentSlide]);
 
+  useLayoutEffect(() => {
+    let intervalId: any;
+    if (isFlowing) {
+      intervalId = setInterval(() => {
+        setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
+      }, 3500);
+    }
+    return () => clearTimeout(intervalId);
+  }, [isFlowing, currentSlide]);
+
   return (
     <BannerImageListContainer>
-      <ImageListBox ref={slideRef} isAnimation={isAnimation}>
+      <ImageListBox
+        ref={slideRef}
+        isAnimation={isAnimation}
+        onMouseEnter={() => setIsFlowing(false)}
+        onMouseLeave={() => setIsFlowing(true)}
+      >
         <ImageList>
           {bannerImageList.map((image, index) => (
             <BannerImageListItem key={index} imageItem={image} />
