@@ -22,28 +22,43 @@ function BannerImageList(): ReactElement {
   const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH);
 
   const onNextSlide = () => {
+    // bannerImageList의 맨 앞에 요소를 지우고 맨 뒤에 요소로 추가한다.
+
     setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
+
+    // setTimeout(() => {
+    //   setBannerImageList([...bannerImageList.slice(1), bannerImageList[0]]);
+    // }, 1000);
   };
 
   const onBackSlide = () => {
+    // bannerImageList의 맨 뒤에 요소를 지우고 맨 앞에 요소로 추가한다.
+    // setTimeout(() => {
+    //   setBannerImageList([
+    //     bannerImageList[bannerImageList.length - 1],
+    //     ...bannerImageList.slice(0, bannerImageList.length - 1),
+    //   ]);
+    // }, 1000);
+
     setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
   };
 
   useEffect(() => {
     if (slideRef.current) {
       slideRef.current.style.transition = "all 0.5s ease-in-out";
-      slideRef.current.style.transform = `translateX(-${
-        1084 * (currentSlide - SHOW_SLIDE_LENGTH)
+      slideRef.current.style.transform = `translateX(${
+        -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
       }px)`;
     }
+    console.log(-1084 * (currentSlide - SHOW_SLIDE_LENGTH));
   }, [currentSlide]);
 
   return (
     <>
       <BannerImageListBlock ref={slideRef}>
         <ImageList>
-          {bannerImageList.map((image) => (
-            <BannerImageListItem key={image.id} imageItem={image} />
+          {bannerImageList.map((image, index) => (
+            <BannerImageListItem key={index} imageItem={image} />
           ))}
         </ImageList>
       </BannerImageListBlock>
@@ -67,7 +82,7 @@ const BannerImageListBlock = styled.div`
   width: 100%;
   position: absolute;
   width: 100%;
-  left: -4336px;
+  left: -9756px;
 `;
 
 const ImageList = styled.div`
