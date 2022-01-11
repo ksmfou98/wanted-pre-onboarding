@@ -2,6 +2,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "assets/icons";
 import { bannerImages } from "lib/bannerImages";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
+import { idText } from "typescript";
 import BannerImageListItem from "./BannerImageListItem";
 
 interface IButtonDirection {
@@ -44,13 +45,16 @@ function BannerImageList(): ReactElement {
   };
 
   useEffect(() => {
-    if (slideRef.current) {
-      slideRef.current.style.transition = "all 0.5s ease-in-out";
-      slideRef.current.style.transform = `translateX(${
-        -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
-      }px)`;
+    if (!slideRef.current) return;
+    if (currentSlide === bannerImages.length + 1) {
+      slideRef.current.style.left = "-9756px";
+      setCurrentSlide(SHOW_SLIDE_LENGTH);
     }
-    console.log(-1084 * (currentSlide - SHOW_SLIDE_LENGTH));
+    // transition: transform 200ms all 0.5s ease-in-out
+    // slideRef.current.style.transition = "all 0.5s ease-in-out";
+    slideRef.current.style.transform = `translateX(${
+      -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
+    }px)`;
   }, [currentSlide]);
 
   return (
@@ -83,12 +87,13 @@ const BannerImageListContainer = styled.div`
   width: 1084px;
   margin: 0 auto;
   position: relative;
+  height: 350px;
 `;
 
 const ImageListBox = styled.div`
   width: 100%;
-  /* position: absolute;
-  left: -9756px; */
+  position: absolute;
+  left: -9756px;
 `;
 
 const ImageList = styled.div`
