@@ -49,11 +49,13 @@ function BannerImageListItem({
   );
 }
 
-const BannerImageListItemBlock = styled.div<{
+interface IBannerImageItemStyled {
   isCenter: boolean;
   imageWidth: number;
   imagePadding: number;
-}>`
+}
+
+const BannerImageListItemBlock = styled.div<IBannerImageItemStyled>`
   width: ${(props) => props.imageWidth}px;
   padding: 0 ${(props) => props.imagePadding}px;
   box-sizing: content-box;
@@ -109,15 +111,19 @@ const ItemInformationBox = styled.div<{ isCenter: boolean }>`
   }
 `;
 
+const ellipsis = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 const InfoTitle = styled.h2`
   margin: 20px 20px 0 20px;
   font-size: 20px;
   line-height: 1.5;
   font-weight: 700;
   color: #333;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  ${ellipsis}
   ${media.xlarge} {
     margin: 20px 0 0 0;
     font-size: 18px;
@@ -132,9 +138,7 @@ const InfoDescription = styled.h3`
   line-height: 1.64;
   color: #333;
   font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  ${ellipsis}
   ${media.xlarge} {
     margin: 6px 0 0 0;
     font-size: 13px;
@@ -168,7 +172,6 @@ const InfoLinked = styled.a`
   align-items: center;
   justify-content: center;
   min-width: 64px;
-  box-sizing: border-box;
   border-radius: 25px;
   cursor: pointer;
   ${media.xlarge} {

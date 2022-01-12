@@ -10,7 +10,7 @@ import React, {
   useState,
 } from "react";
 import styled, { css } from "styled-components";
-import media from "styles/media";
+import media, { size } from "styles/media";
 import BannerImageListItem from "./BannerImageListItem";
 
 interface IButtonDirection {
@@ -18,11 +18,13 @@ interface IButtonDirection {
 }
 
 function BannerImageList(): ReactElement {
-  const { width } = useWindowDimensions();
-  const SLIDE_IMAGE_WIDTH = width > 1200 ? 1060 : width - 80;
-  const SLIDE_IMAGE_PADDING = width > 1200 ? 12 : 10;
+  const { width } = useWindowDimensions(); // @Note window 사이즈가 변화할 때마다 변경되는 width 값
+  const INITIAL_IMAGE_WIDTH = 1060; // @Note 초기 이미지 크기
+  const SLIDE_IMAGE_WIDTH =
+    width > size.large ? INITIAL_IMAGE_WIDTH : width - 80; // @Note width 사이즈가 1200 이상이면 최초사이즈유지 하고 줄어들면 현재 width 값에서 - 80
+  const SLIDE_IMAGE_PADDING = width > size.large ? 12 : 10; // @Note width 사이즈가 1200 이상이면 12 아래이면 10
   const SLIDE_ITEM_WIDTH =
-    SLIDE_IMAGE_WIDTH + SLIDE_IMAGE_PADDING + SLIDE_IMAGE_PADDING; // @Note 슬라이드 할 요소 가로 길이
+    SLIDE_IMAGE_WIDTH + SLIDE_IMAGE_PADDING + SLIDE_IMAGE_PADDING; // @Note 슬라이드 할 요소 가로 길이 (이미지 가로길이 + 왼쪽 패딩 + 오른쪽 패딩)
   const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
   const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
   const ORIGINAL_IMAGE_LENGTH = bannerImages.length; // @Note 원본 이미지 개수
@@ -78,7 +80,6 @@ function BannerImageList(): ReactElement {
       setTimeout(() => {
         setIsAnimaion(false); // @Note 바꿔치기할 때 animation을 잠깐 끔 (사용자에게 들키지 않기 위해 )
         if (slideRef.current) {
-          // slideRef.current.style.left = "-17344px";
           slideRef.current.style.left = `${
             INITIAL_FOCUS_SLIDE_INDEX * SLIDE_ITEM_WIDTH * -1
           }px`;
