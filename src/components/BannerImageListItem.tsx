@@ -1,7 +1,8 @@
 import { LinkArrowIcon } from "assets/icons";
 import { IBannerImageItem } from "lib/bannerImages";
 import React, { ReactElement } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { fadeIn } from "styles/transitions";
 
 interface BannerImageListItemProps {
   imageItem: IBannerImageItem;
@@ -19,7 +20,7 @@ function BannerImageListItem({
       <ItemBox>
         <ItemImage src={imageUrl} />
 
-        <ItemInformationBox>
+        <ItemInformationBox isCenter={isCenter}>
           <InfoTitle>{title}</InfoTitle>
           <InfoDescription>{description}</InfoDescription>
           <DividerLine />
@@ -58,7 +59,16 @@ const ItemImage = styled.img`
   border-radius: 4px;
 `;
 
-const ItemInformationBox = styled.div`
+const ItemInformationBox = styled.div<{ isCenter: boolean }>`
+  ${({ isCenter }) =>
+    isCenter
+      ? css`
+          display: block;
+        `
+      : css`
+          display: none;
+        `};
+  animation: ${fadeIn} 0.4s ease-in-out;
   position: absolute;
   bottom: 28px;
   width: 330px;
