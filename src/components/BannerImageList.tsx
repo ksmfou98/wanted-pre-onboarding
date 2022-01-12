@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import styled, { css } from "styled-components";
+import media from "styles/media";
 import BannerImageListItem from "./BannerImageListItem";
 
 interface IButtonDirection {
@@ -158,6 +159,9 @@ const ImageList = styled.div`
 `;
 
 const ArrowButtonStyled = styled.button<IButtonDirection>`
+  ${media.xlarge} {
+    display: none;
+  }
   display: flex;
   align-items: center;
   justify-content: center;

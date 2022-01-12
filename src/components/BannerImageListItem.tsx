@@ -2,6 +2,7 @@ import { LinkArrowIcon } from "assets/icons";
 import { IBannerImageItem } from "lib/bannerImages";
 import React, { ReactElement } from "react";
 import styled, { css } from "styled-components";
+import media from "styles/media";
 import { fadeIn } from "styles/transitions";
 
 interface BannerImageListItemProps {
@@ -57,6 +58,12 @@ const ItemBox = styled.div`
 
 const ItemImage = styled.img`
   border-radius: 4px;
+  width: 1060px;
+  height: 100%;
+  object-fit: cover;
+  ${media.xlarge} {
+    height: 183px;
+  }
 `;
 
 const ItemInformationBox = styled.div<{ isCenter: boolean }>`
