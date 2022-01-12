@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "assets/icons";
+import useCarousel from "hooks/useCarousel";
 import useWindowDimensions from "hooks/useWindowDimensitons";
 import { bannerImages } from "lib/bannerImages";
 import React, {
@@ -21,101 +22,118 @@ function BannerImageList(): ReactElement {
   const { width } = useWindowDimensions(); // @Note window 사이즈가 변화할 때마다 변경되는 width 값
   const INITIAL_IMAGE_WIDTH = 1060; // @Note 초기 이미지 크기
   const SLIDE_IMAGE_WIDTH =
-    width > size.large ? INITIAL_IMAGE_WIDTH : width - 80; // @Note width 사이즈가 1200 이상이면 최초사이즈유지 하고 줄어들면 현재 width 값에서 - 80
-  const SLIDE_IMAGE_PADDING = width > size.large ? 12 : 10; // @Note width 사이즈가 1200 이상이면 12 아래이면 10
+    width > size.xlarge ? INITIAL_IMAGE_WIDTH : width - 80; // @Note width 사이즈가 1200 이상이면 최초사이즈유지 하고 줄어들면 현재 width 값에서 - 80
+  const SLIDE_IMAGE_PADDING = width > size.xlarge ? 12 : 10; // @Note width 사이즈가 1200 이상이면 12 아래이면 10
   const SLIDE_ITEM_WIDTH =
     SLIDE_IMAGE_WIDTH + SLIDE_IMAGE_PADDING + SLIDE_IMAGE_PADDING; // @Note 슬라이드 할 요소 가로 길이 (이미지 가로길이 + 왼쪽 패딩 + 오른쪽 패딩)
-  const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
-  const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
-  const ORIGINAL_IMAGE_LENGTH = bannerImages.length; // @Note 원본 이미지 개수
+  // const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
+  // const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
+  // const ORIGINAL_IMAGE_LENGTH = bannerImages.length; // @Note 원본 이미지 개수
+
+  const carouselOption = {
+    data: bannerImages,
+    slideItemWidth: SLIDE_ITEM_WIDTH,
+    slideCount: 1,
+  };
+
+  const {
+    INITIAL_FOCUS_SLIDE_INDEX,
+    dataList,
+    isAnimation,
+    isCenterIndex,
+    onChangeFlowing,
+    onNextSlide,
+    onPrevSlide,
+    slideRef,
+  } = useCarousel(carouselOption);
 
   // @Note 이미지 데이터를 랜덤하게 섞어서 상태에 저장
-  const [bannerImageList, setBannerImageList] = useState(
-    bannerImages.sort(() => Math.random() - 0.5)
-  );
-  const [isAnimation, setIsAnimaion] = useState(true); // @Note 슬라이드 애니메이션 여부 -> 무한 슬라이드 구현 시 인덱스 초기화 시에는 에니메이션 사용X
-  const [isFlowing, setIsFlowing] = useState(true); // @Note 이 값이 true 이면 자동 슬라이드 실행
-  const [isCenterIndex, setIsCenterIndex] = useState(0); // @Note 중앙에 있는 슬라이드 인덱스 (현재 슬라이드 값 + 처음에 초점 맞춰져 있는 슬라이드 인덱스 - 1) -> 마지막에 -1 하는 이유는 인덱스가 0부터 시작해야해서 -1 해줌
-  const slideRef = useRef<HTMLDivElement>(null); // @Note 슬라이드 시킬 div 값 저장
-  const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH); // @Note 현재 슬라이드 값
+  // const [bannerImageList, setBannerImageList] = useState(
+  //   bannerImages.sort(() => Math.random() - 0.5)
+  // );
+  // const [isAnimation, setIsAnimaion] = useState(true); // @Note 슬라이드 애니메이션 여부 -> 무한 슬라이드 구현 시 인덱스 초기화 시에는 에니메이션 사용X
+  // const [isFlowing, setIsFlowing] = useState(true); // @Note 이 값이 true 이면 자동 슬라이드 실행
+  // const [isCenterIndex, setIsCenterIndex] = useState(0); // @Note 중앙에 있는 슬라이드 인덱스 (현재 슬라이드 값 + 처음에 초점 맞춰져 있는 슬라이드 인덱스 - 1) -> 마지막에 -1 하는 이유는 인덱스가 0부터 시작해야해서 -1 해줌
+  // const slideRef = useRef<HTMLDivElement>(null); // @Note 슬라이드 시킬 div 값 저장
+  // const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH); // @Note 현재 슬라이드 값
 
-  useEffect(() => {
-    const handleResize = () => {
-      // @Note 화면이 리사이즈 될 동안에는 애니매이션, 화면 슬라이드 막기
-      setIsAnimaion(false);
-      setIsFlowing(false);
-      setTimeout(() => {
-        setIsFlowing(true);
-        setIsAnimaion(true);
-      }, 500);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     // @Note 화면이 리사이즈 될 동안에는 애니매이션, 화면 슬라이드 막기
+  //     setIsAnimaion(false);
+  //     setIsFlowing(false);
+  //     setTimeout(() => {
+  //       setIsFlowing(true);
+  //       setIsAnimaion(true);
+  //     }, 500);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
-  // @Note 최초 이미지 리스트를 [이전] [중앙] [다음] 상태로 넣어줌 -> 무한 슬라이드를 위해서
-  useEffect(() => {
-    setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
-  }, []);
+  // // @Note 최초 이미지 리스트를 [이전] [중앙] [다음] 상태로 넣어줌 -> 무한 슬라이드를 위해서
+  // useEffect(() => {
+  //   setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
+  // }, []);
 
-  // @Note 다음 슬라이드 이동
-  const onNextSlide = useCallback(() => {
-    setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
-  }, [currentSlide]);
+  // // @Note 다음 슬라이드 이동
+  // const onNextSlide = useCallback(() => {
+  //   setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
+  // }, [currentSlide]);
 
-  // @Note 이전 슬라이드 이동
-  const onBackSlide = useCallback(() => {
-    setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
-  }, [currentSlide]);
+  // // @Note 이전 슬라이드 이동
+  // const onBackSlide = useCallback(() => {
+  //   setCurrentSlide(currentSlide - SHOW_SLIDE_LENGTH);
+  // }, [currentSlide]);
 
-  useEffect(() => {
-    if (!slideRef.current) return;
-    //@Note 현재 슬라이드가 이미지 갯수를 넘어갔을 경우 초기 상태로 몰래 바꿔치기하는 작업
-    if (
-      currentSlide === bannerImages.length + 1 ||
-      currentSlide * -1 === bannerImages.length - 1
-    ) {
-      setTimeout(() => {
-        setIsAnimaion(false); // @Note 바꿔치기할 때 animation을 잠깐 끔 (사용자에게 들키지 않기 위해 )
-        if (slideRef.current) {
-          slideRef.current.style.left = `${
-            INITIAL_FOCUS_SLIDE_INDEX * SLIDE_ITEM_WIDTH * -1
-          }px`;
-        }
-        setCurrentSlide(SHOW_SLIDE_LENGTH);
-      }, 500);
-      setTimeout(() => {
-        // @Note 바꿔치기 성공한 뒤에 animation을 바로 킴
-        setIsAnimaion(true);
-      }, 600);
-    }
+  // useEffect(() => {
+  //   if (!slideRef.current) return;
+  //   //@Note 현재 슬라이드가 이미지 갯수를 넘어갔을 경우 초기 상태로 몰래 바꿔치기하는 작업
+  //   if (
+  //     currentSlide === ORIGINAL_IMAGE_LENGTH + 1 ||
+  //     currentSlide * -1 === ORIGINAL_IMAGE_LENGTH - 1
+  //   ) {
+  //     setTimeout(() => {
+  //       setIsAnimaion(false); // @Note 바꿔치기할 때 animation을 잠깐 끔 (사용자에게 들키지 않기 위해 )
+  //       if (slideRef.current) {
+  //         slideRef.current.style.left = `${
+  //           INITIAL_FOCUS_SLIDE_INDEX * SLIDE_ITEM_WIDTH * -1
+  //         }px`;
+  //       }
+  //       setCurrentSlide(SHOW_SLIDE_LENGTH);
+  //     }, 500);
+  //     setTimeout(() => {
+  //       // @Note 바꿔치기 성공한 뒤에 animation을 바로 킴
+  //       setIsAnimaion(true);
+  //     }, 600);
+  //   }
 
-    slideRef.current.style.transform = `translateX(${
-      -SLIDE_ITEM_WIDTH * (currentSlide - SHOW_SLIDE_LENGTH)
-    }px)`;
-  }, [currentSlide, SLIDE_ITEM_WIDTH]);
+  //   slideRef.current.style.transform = `translateX(${
+  //     -SLIDE_ITEM_WIDTH * (currentSlide - SHOW_SLIDE_LENGTH)
+  //   }px)`;
+  // }, [currentSlide, SLIDE_ITEM_WIDTH, ORIGINAL_IMAGE_LENGTH]);
 
-  // @Note 무한 슬라이드를 위해 setInterval 사용
-  useLayoutEffect(() => {
-    let intervalId: NodeJS.Timer;
-    if (isFlowing) {
-      intervalId = setInterval(() => {
-        setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
-      }, 3500);
-    }
-    return () => clearTimeout(intervalId);
-  }, [isFlowing, currentSlide]);
+  // // @Note 무한 슬라이드를 위해 setInterval 사용
+  // useLayoutEffect(() => {
+  //   let intervalId: NodeJS.Timer;
+  //   if (isFlowing) {
+  //     intervalId = setInterval(() => {
+  //       setCurrentSlide(currentSlide + SHOW_SLIDE_LENGTH);
+  //     }, 3500);
+  //   }
+  //   return () => clearTimeout(intervalId);
+  // }, [isFlowing, currentSlide]);
 
-  // @Note 현재 슬라이드가 원본 이미지 길이를 벗어났을 때는 그대로 return 시켜주고 아닐 경우에는 center 상태에 index를 넣어줌
-  // @Note 이렇게 하는 이유는 center Index 값을 가지고 있어야 이미지 아래에 information 정보를 보여줄 수 있음
-  useEffect(() => {
-    if (currentSlide > ORIGINAL_IMAGE_LENGTH) return;
-    if (currentSlide <= -1 * ORIGINAL_IMAGE_LENGTH + SHOW_SLIDE_LENGTH) return;
+  // // @Note 현재 슬라이드가 원본 이미지 길이를 벗어났을 때는 그대로 return 시켜주고 아닐 경우에는 center 상태에 index를 넣어줌
+  // // @Note 이렇게 하는 이유는 center Index 값을 가지고 있어야 이미지 아래에 information 정보를 보여줄 수 있음
+  // useEffect(() => {
+  //   if (currentSlide > ORIGINAL_IMAGE_LENGTH) return;
+  //   if (currentSlide <= -1 * ORIGINAL_IMAGE_LENGTH + SHOW_SLIDE_LENGTH) return;
 
-    setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
-  }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
+  //   setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
+  // }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
 
   return (
     <BannerImageListWrapper bannerWidth={SLIDE_ITEM_WIDTH}>
@@ -123,11 +141,11 @@ function BannerImageList(): ReactElement {
         ref={slideRef}
         isAnimation={isAnimation}
         initialLeft={SLIDE_ITEM_WIDTH * -1 * INITIAL_FOCUS_SLIDE_INDEX}
-        onMouseEnter={() => setIsFlowing(false)}
-        onMouseLeave={() => setIsFlowing(true)}
+        onMouseEnter={() => onChangeFlowing(false)}
+        onMouseLeave={() => onChangeFlowing(true)}
       >
         <ImageList>
-          {bannerImageList.map((image, index) => (
+          {dataList.map((image, index) => (
             <BannerImageListItem
               key={index}
               imageItem={image}
@@ -141,9 +159,9 @@ function BannerImageList(): ReactElement {
 
       <ArrowButtonStyled
         direction="left"
-        onClick={onBackSlide}
-        onMouseEnter={() => setIsFlowing(false)}
-        onMouseLeave={() => setIsFlowing(true)}
+        onClick={onPrevSlide}
+        onMouseEnter={() => onChangeFlowing(false)}
+        onMouseLeave={() => onChangeFlowing(true)}
       >
         <IconBox>
           <ArrowLeftIcon />
@@ -153,8 +171,8 @@ function BannerImageList(): ReactElement {
       <ArrowButtonStyled
         direction="right"
         onClick={onNextSlide}
-        onMouseEnter={() => setIsFlowing(false)}
-        onMouseLeave={() => setIsFlowing(true)}
+        onMouseEnter={() => onChangeFlowing(false)}
+        onMouseLeave={() => onChangeFlowing(true)}
       >
         <IconBox>
           <ArrowRightIcon />
