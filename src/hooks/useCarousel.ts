@@ -9,6 +9,7 @@ interface CarouselOptions {
 export default function useCarousel(options: CarouselOptions) {
   const { slideCount, data, slideItemWidth } = options;
   const slideRef = useRef<HTMLDivElement>(null);
+  const [isDisabled, setIsDisabled] = useState(false); // @Note 이동 버튼 클릭시 버튼 비활성화 시키기 위한 상태
   const [currentSlide, setCurrentSlide] = useState(slideCount); // @Note 현재 슬라이드 값
   const [isAnimation, setIsAnimaion] = useState(true); // @Note 슬라이드 애니메이션 여부 -> 무한 슬라이드 구현 시 인덱스 초기화 시에는 에니메이션 사용X
   const [isFlowing, setIsFlowing] = useState(true); // @Note 이 값이 true 이면 자동 슬라이드 실행
@@ -45,13 +46,34 @@ export default function useCarousel(options: CarouselOptions) {
     };
   }, []);
 
+  const timer = useRef<NodeJS.Timeout>();
+
+  // @Note 슬라이드 이동 버튼 클릭 시 버튼 비활성화 시키기
+  const onDisabledButton = () => {
+    setIsDisabled(true);
+    timer.current = setTimeout(() => {
+      setIsDisabled(false);
+    }, 600);
+  };
+
+  useEffect(() => {
+    // 컴포넌트 종료시 setTimeout 초기화
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, [timer]);
+
   // @Note 다음 슬라이드 이동 버튼
   const onNextSlide = useCallback(() => {
+    onDisabledButton();
     setCurrentSlide(currentSlide + slideCount);
   }, [currentSlide, slideCount]);
 
   // @Note 이전 슬라이드 이동 버튼
   const onPrevSlide = useCallback(() => {
+    onDisabledButton();
     setCurrentSlide(currentSlide - slideCount);
   }, [currentSlide, slideCount]);
 
@@ -121,5 +143,6 @@ export default function useCarousel(options: CarouselOptions) {
     onPrevSlide,
     onNextSlide,
     onChangeFlowing,
+    isDisabled,
   };
 }

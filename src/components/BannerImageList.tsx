@@ -45,6 +45,7 @@ function BannerImageList(): ReactElement {
     onNextSlide,
     onPrevSlide,
     slideRef,
+    isDisabled,
   } = useCarousel(carouselOption);
 
   return (
@@ -74,6 +75,7 @@ function BannerImageList(): ReactElement {
         onClick={onPrevSlide}
         onMouseEnter={() => onChangeFlowing(false)}
         onMouseLeave={() => onChangeFlowing(true)}
+        disabled={isDisabled}
       >
         <IconBox>
           <ArrowLeftIcon />
@@ -85,6 +87,7 @@ function BannerImageList(): ReactElement {
         onClick={onNextSlide}
         onMouseEnter={() => onChangeFlowing(false)}
         onMouseLeave={() => onChangeFlowing(true)}
+        disabled={isDisabled}
       >
         <IconBox>
           <ArrowRightIcon />
