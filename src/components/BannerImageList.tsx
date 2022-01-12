@@ -16,18 +16,20 @@ interface IButtonDirection {
 }
 
 function BannerImageList(): ReactElement {
+  const SLIDE_ITEM_WIDTH = 1084; // @Note 슬라이드 할 요소 가로 길이
+  const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
+
   const [bannerImageList, setBannerImageList] = useState(
     bannerImages.sort(() => Math.random() - 0.5)
   );
   const [isAnimation, setIsAnimaion] = useState(true);
-  const [isFlowing, setIsFlowing] = useState(false);
+  const [isFlowing, setIsFlowing] = useState(true);
 
   useEffect(() => {
     setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
   }, []);
 
   const slideRef = useRef<HTMLDivElement>(null);
-  const SHOW_SLIDE_LENGTH = 1;
   const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH);
 
   const onNextSlide = useCallback(() => {
@@ -57,7 +59,7 @@ function BannerImageList(): ReactElement {
     }
 
     slideRef.current.style.transform = `translateX(${
-      -1084 * (currentSlide - SHOW_SLIDE_LENGTH)
+      -SLIDE_ITEM_WIDTH * (currentSlide - SHOW_SLIDE_LENGTH)
     }px)`;
   }, [currentSlide]);
 
@@ -76,6 +78,7 @@ function BannerImageList(): ReactElement {
       <ImageListBox
         ref={slideRef}
         isAnimation={isAnimation}
+        initialLeft={SLIDE_ITEM_WIDTH * -16}
         onMouseEnter={() => setIsFlowing(false)}
         onMouseLeave={() => setIsFlowing(true)}
       >
@@ -109,10 +112,10 @@ const BannerImageListContainer = styled.div`
   height: 350px;
 `;
 
-const ImageListBox = styled.div<{ isAnimation: boolean }>`
+const ImageListBox = styled.div<{ isAnimation: boolean; initialLeft: number }>`
   width: 100%;
   position: absolute;
-  left: -17344px;
+  left: ${(props) => props.initialLeft}px;
   ${({ isAnimation }) => isAnimation && "transition: all 0.5s ease-in-out"};
 `;
 
