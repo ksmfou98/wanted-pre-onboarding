@@ -50,6 +50,9 @@ const BannerImageListItemBlock = styled.div<{ isCenter: boolean }>`
   min-height: 1px;
   filter: ${({ isCenter }) =>
     isCenter ? "brightness(100%)" : "brightness(50%)"};
+  ${media.xlarge} {
+    filter: brightness(100%);
+  }
 `;
 
 const ItemBox = styled.div`
@@ -61,6 +64,7 @@ const ItemImage = styled.img`
   width: 1060px;
   height: 100%;
   object-fit: cover;
+  vertical-align: top;
   ${media.xlarge} {
     height: 183px;
   }
@@ -76,6 +80,9 @@ const ItemInformationBox = styled.div<{ isCenter: boolean }>`
           display: none;
         `};
   animation: ${fadeIn} 0.4s ease-in-out;
+  ${media.xlarge} {
+    display: block;
+  }
   position: absolute;
   bottom: 28px;
   width: 330px;
@@ -84,19 +91,29 @@ const ItemInformationBox = styled.div<{ isCenter: boolean }>`
   background-color: #fff;
   text-align: left;
   left: 34px;
+  ${media.xlarge} {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const InfoTitle = styled.h2`
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 20px 20px 0 20px;
   font-size: 20px;
   line-height: 1.5;
-  margin-top: 20px;
   font-weight: 700;
   color: #333;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  ${media.xlarge} {
+    margin: 20px 0 0 0;
+    font-size: 18px;
+    line-height: 1;
+  }
 `;
 
 const InfoDescription = styled.h3`
@@ -109,6 +126,12 @@ const InfoDescription = styled.h3`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  ${media.xlarge} {
+    margin: 6px 0 0 0;
+    font-size: 13px;
+    line-height: 1.15;
+    height: auto;
+  }
 `;
 
 const DividerLine = styled.hr`
@@ -117,6 +140,9 @@ const DividerLine = styled.hr`
   border: none;
   flex-shrink: 0;
   background-color: #ececec;
+  ${media.xlarge} {
+    display: none;
+  }
 `;
 
 const InfoLinked = styled.a`
@@ -136,6 +162,9 @@ const InfoLinked = styled.a`
   box-sizing: border-box;
   border-radius: 25px;
   cursor: pointer;
+  ${media.xlarge} {
+    margin: 0;
+  }
   .text {
     width: 100%;
     font-size: inherit;
