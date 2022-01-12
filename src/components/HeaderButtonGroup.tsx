@@ -1,4 +1,4 @@
-import { NIcon, SearchIcon, BellIcon } from "assets/icons";
+import { NIcon, SearchIcon, BellIcon, EtcIcon } from "assets/icons";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 import media from "styles/media";
@@ -16,6 +16,10 @@ function HeaderButtonGroup(): ReactElement {
           <NewCircleStyled>
             <NIcon />
           </NewCircleStyled>
+        </ButtonItemStyled>
+
+        <ButtonItemStyled>
+          <EtcIcon />
         </ButtonItemStyled>
 
         <ButtonItemStyled className="profile">
@@ -51,6 +55,9 @@ const ButtonListStyled = styled.div`
     padding: 0;
     ${media.xlarge} {
       margin-right: 0;
+    }
+    ${media.large} {
+      display: none;
     }
   }
 `;
@@ -101,6 +108,9 @@ const ProfileImg = styled.img`
 const CompanyServiceLinkedBox = styled.div`
   display: flex;
   align-items: center;
+  ${media.large} {
+    display: none;
+  }
   &::before {
     display: block;
     content: "";

@@ -33,6 +33,9 @@ const HeaderInner = styled.div`
   ${media.xlarge} {
     width: 90%;
   }
+  ${media.large} {
+    height: 110px;
+  }
 `;
 
 const HeaderNav = styled.nav`
@@ -40,6 +43,7 @@ const HeaderNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  flex-wrap: wrap;
 `;
 
 export default Header;

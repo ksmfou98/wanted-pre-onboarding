@@ -20,6 +20,10 @@ const HeaderMenuListBlock = styled.ul`
     flex: 1 1;
     justify-content: space-evenly;
   }
+  ${media.large} {
+    justify-content: flex-start;
+    margin-right: 30px;
+  }
 `;
 
 export default HeaderMenuList;

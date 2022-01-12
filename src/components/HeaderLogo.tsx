@@ -1,6 +1,7 @@
 import { MenuIMG } from "assets/images";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import media from "styles/media";
 
 function HeaderLogo(): ReactElement {
   return (
@@ -18,6 +19,11 @@ function HeaderLogo(): ReactElement {
 const HeaderLogoBlock = styled.div`
   display: flex;
   align-items: center;
+  ${media.large} {
+    width: 100%;
+    padding: 15px 0;
+    height: 60px;
+  }
 `;
 
 const LogoButton = styled.button`

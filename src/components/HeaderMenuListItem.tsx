@@ -1,6 +1,6 @@
 import { IHeaderMenuItem } from "lib/headerMenus";
 import React, { ReactElement } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import media from "styles/media";
 import HeaderMenuIcon from "./HeaderMenuIcon";
 
@@ -42,12 +42,27 @@ const MenuLinked = styled.a`
   ${media.custom(1100)} {
     font-size: 13px;
   }
+  ${media.large} {
+    padding: 11px 10px 19px;
+  }
 `;
 
 const MenuIcon = styled.div<{ isBeta: boolean }>`
   position: absolute;
   top: 10px;
   right: ${({ isBeta }) => (isBeta ? "-7px" : "-5px")};
+  ${media.large} {
+    ${({ isBeta }) =>
+      isBeta
+        ? css`
+            right: -8px;
+            top: 4px;
+          `
+        : css`
+            top: 5px;
+            right: -7px;
+          `}
+  }
 `;
 
 export default HeaderMenuListItem;
