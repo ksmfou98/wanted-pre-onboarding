@@ -37,6 +37,22 @@ function BannerImageList(): ReactElement {
   const slideRef = useRef<HTMLDivElement>(null); // @Note 슬라이드 시킬 div 값 저장
   const [currentSlide, setCurrentSlide] = useState(SHOW_SLIDE_LENGTH); // @Note 현재 슬라이드 값
 
+  useEffect(() => {
+    const handleResize = () => {
+      // @Note 화면이 리사이즈 될 동안에는 애니매이션, 화면 슬라이드 막기
+      setIsAnimaion(false);
+      setIsFlowing(false);
+      setTimeout(() => {
+        setIsFlowing(true);
+        setIsAnimaion(true);
+      }, 500);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // @Note 최초 이미지 리스트를 [이전] [중앙] [다음] 상태로 넣어줌 -> 무한 슬라이드를 위해서
   useEffect(() => {
     setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
