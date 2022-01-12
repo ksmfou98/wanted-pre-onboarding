@@ -1,6 +1,7 @@
 import { IHeaderMenuItem } from "lib/headerMenus";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import media from "styles/media";
 import HeaderMenuIcon from "./HeaderMenuIcon";
 
 interface HeaderMenuListItemProps {
@@ -38,6 +39,9 @@ const MenuLinked = styled.a`
   padding: 15px;
   display: inline-block;
   color: #444444;
+  ${media.custom(1100)} {
+    font-size: 13px;
+  }
 `;
 
 const MenuIcon = styled.div<{ isBeta: boolean }>`

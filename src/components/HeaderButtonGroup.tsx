@@ -1,6 +1,7 @@
 import { NIcon, SearchIcon, BellIcon } from "assets/icons";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import media from "styles/media";
 
 function HeaderButtonGroup(): ReactElement {
   return (
@@ -40,11 +41,17 @@ const ButtonListStyled = styled.div`
   align-items: center;
   .last {
     margin-right: 10px;
+    ${media.xlarge} {
+      margin-right: 5px;
+    }
   }
   .profile {
     margin-top: 0;
     margin-right: 16px;
     padding: 0;
+    ${media.xlarge} {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -55,6 +62,9 @@ const ButtonItemStyled = styled.button`
   vertical-align: middle;
   padding: 0 10px;
   margin-top: 3px;
+  ${media.xlarge} {
+    padding: 0 5px;
+  }
 `;
 
 const NewCircleStyled = styled.span`
@@ -111,6 +121,9 @@ const CompanyServiceLinked = styled.a`
   padding: 0 10px;
   margin-left: 15px;
   font-weight: 400;
+  ${media.xlarge} {
+    margin-left: 0;
+  }
 `;
 
 export default HeaderButtonGroup;

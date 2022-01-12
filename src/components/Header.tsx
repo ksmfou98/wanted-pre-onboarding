@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import media from "styles/media";
 import HeaderButtonGroup from "./HeaderButtonGroup";
 import HeaderLogo from "./HeaderLogo";
 import HeaderMenuList from "./HeaderMenuList";
@@ -29,6 +30,9 @@ const HeaderInner = styled.div`
   width: 87.72%;
   max-width: 1060px;
   height: 50px;
+  ${media.xlarge} {
+    width: 90%;
+  }
 `;
 
 const HeaderNav = styled.nav`
