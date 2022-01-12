@@ -19,12 +19,14 @@ function BannerImageList(): ReactElement {
   const SLIDE_ITEM_WIDTH = 1084; // @Note 슬라이드 할 요소 가로 길이
   const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
   const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
+  const ORIGINAL_IMAGE_LENGTH = bannerImages.length; // @Note 원본 이미지 개수
 
   const [bannerImageList, setBannerImageList] = useState(
     bannerImages.sort(() => Math.random() - 0.5)
   );
   const [isAnimation, setIsAnimaion] = useState(true);
   const [isFlowing, setIsFlowing] = useState(true);
+  const [isCenterIndex, setIsCenterIndex] = useState(0);
 
   useEffect(() => {
     setBannerImageList([...bannerImages, ...bannerImages, ...bannerImages]);
@@ -74,6 +76,16 @@ function BannerImageList(): ReactElement {
     return () => clearTimeout(intervalId);
   }, [isFlowing, currentSlide]);
 
+  // @Note
+  useEffect(() => {
+    if (currentSlide > ORIGINAL_IMAGE_LENGTH) return;
+    if (currentSlide <= -1 * ORIGINAL_IMAGE_LENGTH + SHOW_SLIDE_LENGTH) return;
+
+    setIsCenterIndex(currentSlide - 1);
+  }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
+
+  console.log(currentSlide);
+
   return (
     <BannerImageListContainer>
       <ImageListBox
@@ -88,19 +100,29 @@ function BannerImageList(): ReactElement {
             <BannerImageListItem
               key={index}
               imageItem={image}
-              isCenter={index - INITIAL_FOCUS_SLIDE_INDEX === currentSlide - 1}
+              isCenter={index - INITIAL_FOCUS_SLIDE_INDEX === isCenterIndex}
             />
           ))}
         </ImageList>
       </ImageListBox>
 
-      <ArrowButtonStyled direction="left" onClick={onBackSlide}>
+      <ArrowButtonStyled
+        direction="left"
+        onClick={onBackSlide}
+        onMouseEnter={() => setIsFlowing(false)}
+        onMouseLeave={() => setIsFlowing(true)}
+      >
         <IconBox>
           <ArrowLeftIcon />
         </IconBox>
       </ArrowButtonStyled>
 
-      <ArrowButtonStyled direction="right" onClick={onNextSlide}>
+      <ArrowButtonStyled
+        direction="right"
+        onClick={onNextSlide}
+        onMouseEnter={() => setIsFlowing(false)}
+        onMouseLeave={() => setIsFlowing(true)}
+      >
         <IconBox>
           <ArrowRightIcon />
         </IconBox>
