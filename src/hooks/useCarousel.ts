@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface CarouselOptions {
   data: any[];
@@ -96,7 +89,7 @@ export default function useCarousel(options: CarouselOptions) {
   ]);
 
   // @Note 무한 슬라이드를 위해 setInterval 사용
-  useLayoutEffect(() => {
+  useEffect(() => {
     let intervalId: NodeJS.Timer;
     if (isFlowing) {
       intervalId = setInterval(() => {
