@@ -2,36 +2,43 @@ import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
 interface CarouselOptions {
   data: any[];
-  slideItemWidth: number; // 슬라이드 될 아이템 가로 길이
-  slideCount: number; // 슬라이드 넘어가는 개수
+  slideItemWidth: number; // @Note 슬라이드 될 아이템 가로 길이
+  slideCount: number; // @Note 슬라이드 넘어가는 개수
 }
 
 export default function useCarousel(options: CarouselOptions) {
   const { slideCount, data, slideItemWidth } = options;
   const slideRef = useRef<HTMLDivElement>(null);
-  const [currentSlide, setCurrentSlide] = useState(slideCount);
-  const [isAnimation, setIsAnimaion] = useState(true);
-  const [isFlowing, setIsFlowing] = useState(true);
-  const [isCenterIndex, setIsCenterIndex] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(slideCount); // @Note 현재 슬라이드 값
+  const [isAnimation, setIsAnimaion] = useState(true); // @Note 슬라이드 애니메이션 여부 -> 무한 슬라이드 구현 시 인덱스 초기화 시에는 에니메이션 사용X
+  const [isFlowing, setIsFlowing] = useState(true); // @Note 이 값이 true 이면 자동 슬라이드 실행
+  const [isCenterIndex, setIsCenterIndex] = useState(0); // @Note 중앙에 있는 슬라이드 인덱스 (현재 슬라이드 값 + 처음에 초점 맞춰져 있는 슬라이드 인덱스 - 1) -> 마지막에 -1 하는 이유는 인덱스가 0부터 시작해야해서 -1 해줌
+  // @Note 데이터 랜덤하게 섞기
   const [dataList, setDataList] = useState(
     data.sort(() => Math.random() - 0.5)
   );
-  const ORIGINAL_IMAGE_LENGTH = data.length;
-  const INITIAL_FOCUS_SLIDE_INDEX = Math.floor((ORIGINAL_IMAGE_LENGTH * 3) / 2);
+  const ORIGINAL_IMAGE_LENGTH = data.length; // @Note 원본 배열 길이
 
+  const initialFocusSlideIndex = useMemo(() => {
+    // @Note 최초 슬라이드 포커스 된 요소 인덱스
+    return Math.floor((ORIGINAL_IMAGE_LENGTH * 3) / 2);
+  }, [ORIGINAL_IMAGE_LENGTH]);
+
+  // @Note 최초 이미지 리스트를 [이전] [중앙] [다음] 상태로 넣어줌 -> 무한 슬라이드를 위해서
   useEffect(() => {
     setDataList([...data, ...data, ...data]);
   }, [data]);
 
+  //  @Note 화면이 리사이즈 될 동안에는 애니매이션, 화면 슬라이드 막기
   useEffect(() => {
     const handleResize = () => {
-      // @Note 화면이 리사이즈 될 동안에는 애니매이션, 화면 슬라이드 막기
       setIsAnimaion(false);
       setIsFlowing(false);
       setTimeout(() => {
@@ -66,7 +73,7 @@ export default function useCarousel(options: CarouselOptions) {
         setIsAnimaion(false); // @Note 바꿔치기할 때 animation을 잠깐 끔 (사용자에게 들키지 않기 위해 )
         if (slideRef.current) {
           slideRef.current.style.left = `${
-            INITIAL_FOCUS_SLIDE_INDEX * slideItemWidth * -1
+            initialFocusSlideIndex * slideItemWidth * -1
           }px`;
         }
         setCurrentSlide(slideCount);
@@ -85,7 +92,7 @@ export default function useCarousel(options: CarouselOptions) {
     slideItemWidth,
     slideCount,
     ORIGINAL_IMAGE_LENGTH,
-    INITIAL_FOCUS_SLIDE_INDEX,
+    initialFocusSlideIndex,
   ]);
 
   // @Note 무한 슬라이드를 위해 setInterval 사용
@@ -105,13 +112,8 @@ export default function useCarousel(options: CarouselOptions) {
     if (currentSlide > ORIGINAL_IMAGE_LENGTH) return;
     if (currentSlide <= -1 * ORIGINAL_IMAGE_LENGTH + slideCount) return;
 
-    setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
-  }, [
-    currentSlide,
-    ORIGINAL_IMAGE_LENGTH,
-    INITIAL_FOCUS_SLIDE_INDEX,
-    slideCount,
-  ]);
+    setIsCenterIndex(currentSlide - 1 + initialFocusSlideIndex);
+  }, [currentSlide, ORIGINAL_IMAGE_LENGTH, initialFocusSlideIndex, slideCount]);
 
   const onChangeFlowing = (value: boolean) => {
     setIsFlowing(value);
@@ -120,7 +122,7 @@ export default function useCarousel(options: CarouselOptions) {
   return {
     slideRef,
     isAnimation,
-    INITIAL_FOCUS_SLIDE_INDEX,
+    initialFocusSlideIndex,
     dataList,
     isCenterIndex,
     onPrevSlide,
