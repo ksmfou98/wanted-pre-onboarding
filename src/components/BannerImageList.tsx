@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "assets/icons";
+import useWindowDimensions from "hooks/useWindowDimensitons";
 import { bannerImages } from "lib/bannerImages";
 import React, {
   ReactElement,
@@ -92,10 +93,12 @@ function BannerImageList(): ReactElement {
     setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
   }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
 
-  console.log(currentSlide);
+  const { width } = useWindowDimensions();
+
+  console.log(width);
 
   return (
-    <BannerImageListContainer>
+    <BannerImageListWrapper bannerWidth={SLIDE_ITEM_WIDTH}>
       <ImageListBox
         ref={slideRef}
         isAnimation={isAnimation}
@@ -135,13 +138,13 @@ function BannerImageList(): ReactElement {
           <ArrowRightIcon />
         </IconBox>
       </ArrowButtonStyled>
-    </BannerImageListContainer>
+    </BannerImageListWrapper>
   );
 }
 
-const BannerImageListContainer = styled.div`
+const BannerImageListWrapper = styled.div<{ bannerWidth: number }>`
   padding-top: 25px;
-  width: 1084px;
+  width: ${({ bannerWidth }) => bannerWidth}px;
   margin: 0 auto;
   position: relative;
   height: 350px;

@@ -18,7 +18,7 @@ function HeaderButtonGroup(): ReactElement {
           </NewCircleStyled>
         </ButtonItemStyled>
 
-        <ButtonItemStyled>
+        <ButtonItemStyled className="etc">
           <EtcIcon />
         </ButtonItemStyled>
 
@@ -58,6 +58,11 @@ const ButtonListStyled = styled.div`
     }
     ${media.large} {
       display: none;
+    }
+  }
+  .etc {
+    ${media.large} {
+      padding-left: 10px;
     }
   }
 `;
