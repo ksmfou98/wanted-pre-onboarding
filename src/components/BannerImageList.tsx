@@ -53,9 +53,9 @@ function BannerImageList(): ReactElement {
       <ImageListBox
         ref={slideRef}
         isAnimation={isAnimation}
-        initialLeft={slideItemWidth * -1 * initialFocusSlideIndex}
         onMouseEnter={() => onChangeFlowing(false)}
         onMouseLeave={() => onChangeFlowing(true)}
+        style={{ left: slideItemWidth * -1 * initialFocusSlideIndex }}
       >
         <ImageList>
           {dataList.map((image, index) => (
@@ -108,10 +108,9 @@ const BannerImageListWrapper = styled.div<{ bannerWidth: number }>`
   }
 `;
 
-const ImageListBox = styled.div<{ isAnimation: boolean; initialLeft: number }>`
+const ImageListBox = styled.div<{ isAnimation: boolean }>`
   width: 100%;
   position: absolute;
-  left: ${(props) => props.initialLeft}px;
   ${({ isAnimation }) => isAnimation && "transition: all 0.5s ease-in-out"};
 `;
 
