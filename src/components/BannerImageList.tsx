@@ -116,8 +116,6 @@ function BannerImageList(): ReactElement {
     setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
   }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
 
-  console.log(width);
-
   return (
     <BannerImageListWrapper bannerWidth={SLIDE_ITEM_WIDTH}>
       <ImageListBox

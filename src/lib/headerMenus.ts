@@ -8,6 +8,11 @@ export type IconTypes = "new" | "beta" | null;
 
 export const headerMenus: IHeaderMenuItem[] = [
   {
+    id: 0,
+    name: "홈",
+    icon: null,
+  },
+  {
     id: 1,
     name: "채용",
     icon: null,

@@ -11,10 +11,10 @@ interface HeaderMenuListItemProps {
 function HeaderMenuListItem({
   menuItem,
 }: HeaderMenuListItemProps): ReactElement {
-  const { icon, name } = menuItem;
+  const { icon, name, id } = menuItem;
 
   return (
-    <HeaderMenuListItemStyled>
+    <HeaderMenuListItemStyled isMobileShow={id < 3}>
       <MenuLinked href="#">
         {name}
         <MenuIcon isBeta={icon === "beta"}>
@@ -25,9 +25,18 @@ function HeaderMenuListItem({
   );
 }
 
-const HeaderMenuListItemStyled = styled.li`
+const HeaderMenuListItemStyled = styled.li<{ isMobileShow: boolean }>`
   height: inherit;
   display: inline-block;
+  &:first-child {
+    display: none;
+  }
+  ${media.medium} {
+    &:first-child {
+      display: inline-block;
+    }
+    ${({ isMobileShow }) => !isMobileShow && "display: none;"}
+  }
 `;
 
 const MenuLinked = styled.a`
