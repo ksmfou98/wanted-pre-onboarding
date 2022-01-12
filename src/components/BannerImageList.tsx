@@ -18,6 +18,7 @@ interface IButtonDirection {
 function BannerImageList(): ReactElement {
   const SLIDE_ITEM_WIDTH = 1084; // @Note 슬라이드 할 요소 가로 길이
   const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
+  const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
 
   const [bannerImageList, setBannerImageList] = useState(
     bannerImages.sort(() => Math.random() - 0.5)
@@ -78,7 +79,7 @@ function BannerImageList(): ReactElement {
       <ImageListBox
         ref={slideRef}
         isAnimation={isAnimation}
-        initialLeft={SLIDE_ITEM_WIDTH * -16}
+        initialLeft={SLIDE_ITEM_WIDTH * -1 * INITIAL_FOCUS_SLIDE_INDEX}
         onMouseEnter={() => setIsFlowing(false)}
         onMouseLeave={() => setIsFlowing(true)}
       >
@@ -87,7 +88,7 @@ function BannerImageList(): ReactElement {
             <BannerImageListItem
               key={index}
               imageItem={image}
-              isCenter={index - 16 === currentSlide - 1}
+              isCenter={index - INITIAL_FOCUS_SLIDE_INDEX === currentSlide - 1}
             />
           ))}
         </ImageList>
