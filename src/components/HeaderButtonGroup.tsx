@@ -64,7 +64,9 @@ const ButtonListStyled = styled.div`
     }
   }
   .etc {
+    display: none;
     ${media.large} {
+      display: block;
       padding-left: 10px;
     }
     ${media.medium} {
