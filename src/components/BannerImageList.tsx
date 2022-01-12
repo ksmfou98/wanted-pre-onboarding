@@ -84,7 +84,11 @@ function BannerImageList(): ReactElement {
       >
         <ImageList>
           {bannerImageList.map((image, index) => (
-            <BannerImageListItem key={index} imageItem={image} />
+            <BannerImageListItem
+              key={index}
+              imageItem={image}
+              isCenter={index - 16 === currentSlide - 1}
+            />
           ))}
         </ImageList>
       </ImageListBox>

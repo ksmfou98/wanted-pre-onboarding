@@ -5,14 +5,17 @@ import styled from "styled-components";
 
 interface BannerImageListItemProps {
   imageItem: IBannerImageItem;
+  isCenter: boolean;
 }
 
 function BannerImageListItem({
   imageItem,
+  isCenter,
 }: BannerImageListItemProps): ReactElement {
   const { imageUrl, title, description, link } = imageItem;
+
   return (
-    <BannerImageListItemBlock>
+    <BannerImageListItemBlock isCenter={isCenter}>
       <ItemBox>
         <ItemImage src={imageUrl} />
 
@@ -36,13 +39,15 @@ function BannerImageListItem({
   );
 }
 
-const BannerImageListItemBlock = styled.div`
+const BannerImageListItemBlock = styled.div<{ isCenter: boolean }>`
   width: 1060px;
   padding: 0 12px;
   box-sizing: content-box;
   float: left;
   height: 100%;
   min-height: 1px;
+  filter: ${({ isCenter }) =>
+    isCenter ? "brightness(100%)" : "brightness(50%)"};
 `;
 
 const ItemBox = styled.div`
