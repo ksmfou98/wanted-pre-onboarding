@@ -36,6 +36,10 @@ const HeaderInner = styled.div`
   ${media.large} {
     height: 110px;
   }
+  ${media.medium} {
+    margin: 0;
+    width: 100%;
+  }
 `;
 
 const HeaderNav = styled.nav`

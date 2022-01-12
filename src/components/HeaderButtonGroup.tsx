@@ -43,6 +43,9 @@ const HeaderButtonGroupBlock = styled.aside`
 const ButtonListStyled = styled.div`
   display: flex;
   align-items: center;
+  ${media.medium} {
+    margin-top: -5px;
+  }
   .last {
     margin-right: 10px;
     ${media.xlarge} {
@@ -63,6 +66,9 @@ const ButtonListStyled = styled.div`
   .etc {
     ${media.large} {
       padding-left: 10px;
+    }
+    ${media.medium} {
+      margin-right: 10px;
     }
   }
 `;

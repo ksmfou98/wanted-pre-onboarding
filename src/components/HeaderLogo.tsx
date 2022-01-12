@@ -24,6 +24,9 @@ const HeaderLogoBlock = styled.div`
     padding: 15px 0;
     height: 60px;
   }
+  ${media.medium} {
+    padding: 15px 20px;
+  }
 `;
 
 const LogoButton = styled.button`

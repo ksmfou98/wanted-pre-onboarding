@@ -34,6 +34,10 @@ const HeaderMenuListItemStyled = styled.li<{ isMobileShow: boolean }>`
   ${media.medium} {
     &:first-child {
       display: inline-block;
+      box-shadow: inset 0 -2px #258bf7;
+      a {
+        padding-left: 20px;
+      }
     }
     ${({ isMobileShow }) => !isMobileShow && "display: none;"}
   }
@@ -53,6 +57,9 @@ const MenuLinked = styled.a`
   }
   ${media.large} {
     padding: 11px 10px 19px;
+  }
+  ${media.medium} {
+    font-size: 14px;
   }
 `;
 
