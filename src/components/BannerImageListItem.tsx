@@ -9,17 +9,23 @@ interface BannerImageListItemProps {
   imageItem: IBannerImageItem;
   isCenter: boolean;
   imageWidth: number;
+  imagePadding: number;
 }
 
 function BannerImageListItem({
   imageItem,
   isCenter,
   imageWidth,
+  imagePadding,
 }: BannerImageListItemProps): ReactElement {
   const { imageUrl, title, description, link } = imageItem;
 
   return (
-    <BannerImageListItemBlock isCenter={isCenter} imageWidth={imageWidth}>
+    <BannerImageListItemBlock
+      isCenter={isCenter}
+      imagePadding={imagePadding}
+      imageWidth={imageWidth}
+    >
       <ItemBox>
         <ItemImage src={imageUrl} isCenter={isCenter} imageWidth={imageWidth} />
 
@@ -46,9 +52,10 @@ function BannerImageListItem({
 const BannerImageListItemBlock = styled.div<{
   isCenter: boolean;
   imageWidth: number;
+  imagePadding: number;
 }>`
   width: ${(props) => props.imageWidth}px;
-  padding: 0 12px;
+  padding: 0 ${(props) => props.imagePadding}px;
   box-sizing: content-box;
   float: left;
   height: 100%;

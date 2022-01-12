@@ -20,7 +20,7 @@ interface IButtonDirection {
 function BannerImageList(): ReactElement {
   const { width } = useWindowDimensions();
   const SLIDE_IMAGE_WIDTH = width > 1200 ? 1060 : width - 80;
-  const SLIDE_IMAGE_PADDING = 12;
+  const SLIDE_IMAGE_PADDING = width > 1200 ? 12 : 10;
   const SLIDE_ITEM_WIDTH =
     SLIDE_IMAGE_WIDTH + SLIDE_IMAGE_PADDING + SLIDE_IMAGE_PADDING; // @Note 슬라이드 할 요소 가로 길이
   const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
@@ -132,6 +132,7 @@ function BannerImageList(): ReactElement {
               imageItem={image}
               isCenter={index === isCenterIndex}
               imageWidth={SLIDE_IMAGE_WIDTH}
+              imagePadding={SLIDE_IMAGE_PADDING}
             />
           ))}
         </ImageList>
@@ -168,6 +169,9 @@ const BannerImageListWrapper = styled.div<{ bannerWidth: number }>`
   margin: 0 auto;
   position: relative;
   height: 350px;
+  ${media.xlarge} {
+    padding-top: 20px;
+  }
 `;
 
 const ImageListBox = styled.div<{ isAnimation: boolean; initialLeft: number }>`
