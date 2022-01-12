@@ -18,7 +18,11 @@ interface IButtonDirection {
 }
 
 function BannerImageList(): ReactElement {
-  const SLIDE_ITEM_WIDTH = 1084; // @Note 슬라이드 할 요소 가로 길이
+  const { width } = useWindowDimensions();
+  const SLIDE_IMAGE_WIDTH = width > 1200 ? 1060 : width - 80;
+  const SLIDE_IMAGE_PADDING = 12;
+  const SLIDE_ITEM_WIDTH =
+    SLIDE_IMAGE_WIDTH + SLIDE_IMAGE_PADDING + SLIDE_IMAGE_PADDING; // @Note 슬라이드 할 요소 가로 길이
   const SHOW_SLIDE_LENGTH = 1; // @Note 슬라이드 할 요소 개수
   const INITIAL_FOCUS_SLIDE_INDEX = 16; // @Note 처음에 초점 맞춰져 있는 슬라이드 인덱스
   const ORIGINAL_IMAGE_LENGTH = bannerImages.length; // @Note 원본 이미지 개수
@@ -58,7 +62,10 @@ function BannerImageList(): ReactElement {
       setTimeout(() => {
         setIsAnimaion(false); // @Note 바꿔치기할 때 animation을 잠깐 끔 (사용자에게 들키지 않기 위해 )
         if (slideRef.current) {
-          slideRef.current.style.left = "-17344px";
+          // slideRef.current.style.left = "-17344px";
+          slideRef.current.style.left = `${
+            INITIAL_FOCUS_SLIDE_INDEX * SLIDE_ITEM_WIDTH * -1
+          }px`;
         }
         setCurrentSlide(SHOW_SLIDE_LENGTH);
       }, 500);
@@ -71,7 +78,7 @@ function BannerImageList(): ReactElement {
     slideRef.current.style.transform = `translateX(${
       -SLIDE_ITEM_WIDTH * (currentSlide - SHOW_SLIDE_LENGTH)
     }px)`;
-  }, [currentSlide]);
+  }, [currentSlide, SLIDE_ITEM_WIDTH]);
 
   // @Note 무한 슬라이드를 위해 setInterval 사용
   useLayoutEffect(() => {
@@ -93,8 +100,6 @@ function BannerImageList(): ReactElement {
     setIsCenterIndex(currentSlide - 1 + INITIAL_FOCUS_SLIDE_INDEX);
   }, [currentSlide, ORIGINAL_IMAGE_LENGTH]);
 
-  const { width } = useWindowDimensions();
-
   console.log(width);
 
   return (
@@ -112,6 +117,7 @@ function BannerImageList(): ReactElement {
               key={index}
               imageItem={image}
               isCenter={index === isCenterIndex}
+              imageWidth={SLIDE_IMAGE_WIDTH}
             />
           ))}
         </ImageList>

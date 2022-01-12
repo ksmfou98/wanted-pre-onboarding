@@ -8,18 +8,20 @@ import { fadeIn } from "styles/transitions";
 interface BannerImageListItemProps {
   imageItem: IBannerImageItem;
   isCenter: boolean;
+  imageWidth: number;
 }
 
 function BannerImageListItem({
   imageItem,
   isCenter,
+  imageWidth,
 }: BannerImageListItemProps): ReactElement {
   const { imageUrl, title, description, link } = imageItem;
 
   return (
-    <BannerImageListItemBlock isCenter={isCenter}>
+    <BannerImageListItemBlock isCenter={isCenter} imageWidth={imageWidth}>
       <ItemBox>
-        <ItemImage src={imageUrl} isCenter={isCenter} />
+        <ItemImage src={imageUrl} isCenter={isCenter} imageWidth={imageWidth} />
 
         <ItemInformationBox isCenter={isCenter}>
           <InfoTitle>{title}</InfoTitle>
@@ -41,8 +43,11 @@ function BannerImageListItem({
   );
 }
 
-const BannerImageListItemBlock = styled.div<{ isCenter: boolean }>`
-  width: 1060px;
+const BannerImageListItemBlock = styled.div<{
+  isCenter: boolean;
+  imageWidth: number;
+}>`
+  width: ${(props) => props.imageWidth}px;
   padding: 0 12px;
   box-sizing: content-box;
   float: left;
@@ -54,9 +59,9 @@ const ItemBox = styled.div`
   position: relative;
 `;
 
-const ItemImage = styled.img<{ isCenter: boolean }>`
+const ItemImage = styled.img<{ isCenter: boolean; imageWidth: number }>`
   border-radius: 4px;
-  width: 1060px;
+  width: ${(props) => props.imageWidth}px;
   height: 100%;
   object-fit: cover;
   vertical-align: top;
