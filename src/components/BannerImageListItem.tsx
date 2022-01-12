@@ -19,7 +19,7 @@ function BannerImageListItem({
   return (
     <BannerImageListItemBlock isCenter={isCenter}>
       <ItemBox>
-        <ItemImage src={imageUrl} />
+        <ItemImage src={imageUrl} isCenter={isCenter} />
 
         <ItemInformationBox isCenter={isCenter}>
           <InfoTitle>{title}</InfoTitle>
@@ -48,23 +48,20 @@ const BannerImageListItemBlock = styled.div<{ isCenter: boolean }>`
   float: left;
   height: 100%;
   min-height: 1px;
-  filter: ${({ isCenter }) =>
-    isCenter ? "brightness(100%)" : "brightness(50%)"};
-  ${media.xlarge} {
-    filter: brightness(100%);
-  }
 `;
 
 const ItemBox = styled.div`
   position: relative;
 `;
 
-const ItemImage = styled.img`
+const ItemImage = styled.img<{ isCenter: boolean }>`
   border-radius: 4px;
   width: 1060px;
   height: 100%;
   object-fit: cover;
   vertical-align: top;
+  filter: ${({ isCenter }) =>
+    isCenter ? "brightness(100%)" : "brightness(50%)"};
   ${media.xlarge} {
     height: 183px;
   }
