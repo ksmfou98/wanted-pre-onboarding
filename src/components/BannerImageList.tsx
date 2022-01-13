@@ -53,8 +53,8 @@ function BannerImageList(): ReactElement {
     onMouseDown,
     onMouseMove,
     onMouseUp,
+    onMouseOut,
   } = useCarousel(carouselOption);
-
 
   return (
     <BannerImageListWrapper
@@ -69,6 +69,7 @@ function BannerImageList(): ReactElement {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onTouchMove={onTouchMove}
+        onMouseOut={onMouseOut}
         onDragStart={(e) => {
           e.stopPropagation();
           e.preventDefault();

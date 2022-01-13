@@ -180,7 +180,14 @@ export default function useCarousel(options: CarouselOptions) {
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     setTouchEndClientX(e.clientX);
-    console.log(touchStartClientX - touchEndClientX);
+  };
+
+  const onMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    setIsAnimaion(true);
+    onChangeFlowing(true);
+    setTouchEndClientX(0);
+    setTouchStartClientX(0);
   };
 
   const onMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -214,5 +221,6 @@ export default function useCarousel(options: CarouselOptions) {
     onMouseDown,
     onMouseMove,
     onMouseUp,
+    onMouseOut,
   };
 }
