@@ -57,13 +57,12 @@ export default function useCarousel(options: CarouselOptions) {
   };
 
   useEffect(() => {
-    // 컴포넌트 종료시 setTimeout 초기화
     return () => {
       if (timer.current) {
         clearTimeout(timer.current);
       }
     };
-  }, [timer]);
+  }, []);
 
   // @Note 다음 슬라이드 이동 버튼
   const onNextSlide = useCallback(() => {
