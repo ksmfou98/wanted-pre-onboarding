@@ -185,13 +185,11 @@ export default function useCarousel(options: CarouselOptions) {
   const onMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(false);
     setIsAnimaion(true);
-    onChangeFlowing(true);
     setTouchEndClientX(0);
     setTouchStartClientX(0);
   };
 
   const onMouseUp = () => {
-    onChangeFlowing(true);
     setIsAnimaion(true);
     if (touchMoveDistance > moveRange) {
       onPrevSlide();
