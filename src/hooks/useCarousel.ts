@@ -135,9 +135,15 @@ export default function useCarousel(options: CarouselOptions) {
 
   const [touchStartClientX, setTouchStartClientX] = useState(0);
   const [touchEndClientX, setTouchEndClientX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const moveRange = useMemo(() => {
+    return Math.floor(slideItemWidth / 4);
+  }, [slideItemWidth]);
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     onChangeFlowing(false);
+    setIsAnimaion(false);
     setTouchStartClientX(e.touches[0].clientX);
     setTouchEndClientX(e.touches[0].clientX);
   };
@@ -152,13 +158,50 @@ export default function useCarousel(options: CarouselOptions) {
 
   const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     onChangeFlowing(true);
-    if (touchMoveDistance > 0) {
+    setIsAnimaion(true);
+    if (touchMoveDistance > moveRange) {
       onPrevSlide();
-    } else {
+    }
+    if (touchMoveDistance < moveRange * -1) {
       onNextSlide();
     }
     setTouchStartClientX(0);
     setTouchEndClientX(0);
+  };
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    onChangeFlowing(false);
+    setTouchStartClientX(e.clientX);
+    setTouchEndClientX(e.clientX);
+    setIsDragging(true);
+    setIsAnimaion(false);
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    setTouchEndClientX(e.clientX);
+  };
+
+  const onMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    setIsAnimaion(true);
+    onChangeFlowing(true);
+    setTouchEndClientX(0);
+    setTouchStartClientX(0);
+  };
+
+  const onMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    onChangeFlowing(true);
+    setIsAnimaion(true);
+    if (touchMoveDistance > moveRange) {
+      onPrevSlide();
+    }
+    if (touchMoveDistance < moveRange * -1) {
+      onNextSlide();
+    }
+    setTouchStartClientX(0);
+    setTouchEndClientX(0);
+    setIsDragging(false);
   };
 
   return {
@@ -175,5 +218,9 @@ export default function useCarousel(options: CarouselOptions) {
     onTouchMove,
     onTouchEnd,
     touchMoveDistance,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+    onMouseOut,
   };
 }
