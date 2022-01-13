@@ -46,6 +46,10 @@ function BannerImageList(): ReactElement {
     onPrevSlide,
     slideRef,
     isDisabled,
+    onTouchEnd,
+    onTouchMove,
+    onTouchStart,
+    touchMoveDistance,
   } = useCarousel(carouselOption);
 
   return (
@@ -55,7 +59,13 @@ function BannerImageList(): ReactElement {
         isAnimation={isAnimation}
         onMouseEnter={() => onChangeFlowing(false)}
         onMouseLeave={() => onChangeFlowing(true)}
-        style={{ left: slideItemWidth * -1 * initialFocusSlideIndex }}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onTouchMove={onTouchMove}
+        style={{
+          left:
+            slideItemWidth * -1 * initialFocusSlideIndex + touchMoveDistance,
+        }}
       >
         <ImageList>
           {dataList.map((image, index) => (
