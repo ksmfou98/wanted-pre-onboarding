@@ -24,6 +24,9 @@ const HeaderMenuListBlock = styled.ul`
     justify-content: flex-start;
     margin-right: 30px;
   }
+  ${media.medium} {
+    margin-right: 0;
+  }
 `;
 
 export default HeaderMenuList;
