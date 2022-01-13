@@ -202,8 +202,6 @@ export default function useCarousel(options: CarouselOptions) {
     setIsDragging(false);
   };
 
-  console.log(isFlowing);
-
   return {
     slideRef,
     isAnimation,
