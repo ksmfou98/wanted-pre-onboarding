@@ -135,6 +135,7 @@ export default function useCarousel(options: CarouselOptions) {
 
   const [touchStartClientX, setTouchStartClientX] = useState(0);
   const [touchEndClientX, setTouchEndClientX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     onChangeFlowing(false);
@@ -161,6 +162,34 @@ export default function useCarousel(options: CarouselOptions) {
     setTouchEndClientX(0);
   };
 
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    onChangeFlowing(false);
+    setTouchStartClientX(e.clientX);
+    setTouchEndClientX(e.clientX);
+    setIsDragging(true);
+    setIsAnimaion(false);
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    setTouchEndClientX(e.clientX);
+    console.log(touchStartClientX - touchEndClientX);
+  };
+
+  const onMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    onChangeFlowing(true);
+    setIsAnimaion(true);
+    if (touchMoveDistance > Math.floor(slideItemWidth / 4)) {
+      onPrevSlide();
+    }
+    if (touchMoveDistance < Math.floor(slideItemWidth / 4) * -1) {
+      onNextSlide();
+    }
+    setTouchStartClientX(0);
+    setTouchEndClientX(0);
+    setIsDragging(false);
+  };
+
   return {
     slideRef,
     isAnimation,
@@ -175,5 +204,8 @@ export default function useCarousel(options: CarouselOptions) {
     onTouchMove,
     onTouchEnd,
     touchMoveDistance,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
   };
 }
