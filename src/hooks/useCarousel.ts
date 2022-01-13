@@ -133,6 +133,34 @@ export default function useCarousel(options: CarouselOptions) {
     setIsFlowing(value);
   };
 
+  const [touchStartClientX, setTouchStartClientX] = useState(0);
+  const [touchEndClientX, setTouchEndClientX] = useState(0);
+
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    onChangeFlowing(false);
+    setTouchStartClientX(e.touches[0].clientX);
+    setTouchEndClientX(e.touches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEndClientX(e.touches[0].clientX);
+  };
+
+  const touchMoveDistance = useMemo(() => {
+    return touchEndClientX - touchStartClientX;
+  }, [touchEndClientX, touchStartClientX]);
+
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    onChangeFlowing(true);
+    if (touchMoveDistance > 0) {
+      onPrevSlide();
+    } else {
+      onNextSlide();
+    }
+    setTouchStartClientX(0);
+    setTouchEndClientX(0);
+  };
+
   return {
     slideRef,
     isAnimation,
@@ -143,5 +171,9 @@ export default function useCarousel(options: CarouselOptions) {
     onNextSlide,
     onChangeFlowing,
     isDisabled,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    touchMoveDistance,
   };
 }
