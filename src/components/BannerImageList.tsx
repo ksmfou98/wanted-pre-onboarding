@@ -57,10 +57,7 @@ function BannerImageList(): ReactElement {
   } = useCarousel(carouselOption);
 
   return (
-    <BannerImageListWrapper
-      bannerWidth={slideItemWidth}
-      onMouseDown={(e) => e.preventDefault()}
-    >
+    <BannerImageListWrapper bannerWidth={slideItemWidth}>
       <ImageListBox
         ref={slideRef}
         isAnimation={isAnimation}
