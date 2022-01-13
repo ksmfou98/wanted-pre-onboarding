@@ -61,6 +61,10 @@ const MenuLinked = styled.a`
   ${media.medium} {
     font-size: 14px;
   }
+  ${media.small} {
+    font-size: 13px;
+    padding: 15px 8px;
+  }
 `;
 
 const MenuIcon = styled.div<{ isBeta: boolean }>`

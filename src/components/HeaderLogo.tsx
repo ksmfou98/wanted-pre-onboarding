@@ -46,7 +46,7 @@ const LogoText = styled.span`
   height: 17px;
   color: #403f3f;
   font-family: "roboto";
-  line-height: 18px;
+  line-height: 12px;
 `;
 
 export default HeaderLogo;
