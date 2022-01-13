@@ -138,7 +138,7 @@ export default function useCarousel(options: CarouselOptions) {
   const [isDragging, setIsDragging] = useState(false);
 
   const moveRange = useMemo(() => {
-    return Math.floor(slideItemWidth / 4);
+    return Math.floor(slideItemWidth / 5);
   }, [slideItemWidth]);
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -190,7 +190,7 @@ export default function useCarousel(options: CarouselOptions) {
     setTouchStartClientX(0);
   };
 
-  const onMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseUp = () => {
     onChangeFlowing(true);
     setIsAnimaion(true);
     if (touchMoveDistance > moveRange) {
