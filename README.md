@@ -2,10 +2,9 @@
 
 <br />
 
-<div align="center">
-    <a href="https://ecstatic-feynman-9b7ef9.netlify.app/">👉 배포 페이지 바로가기 👈</a>
-</div>
+## [👉 배포 페이지 바로가기 👈](https://ecstatic-feynman-9b7ef9.netlify.app/)
 
+<br />
 <br />
 
 ## 필수 구현 사항
