@@ -20,8 +20,8 @@ export default function useCarousel(options: CarouselOptions) {
   );
   const ORIGINAL_IMAGE_LENGTH = data.length; // @Note 원본 배열 길이
 
+  // @Note 최초 슬라이드 포커스 된 요소 인덱스
   const initialFocusSlideIndex = useMemo(() => {
-    // @Note 최초 슬라이드 포커스 된 요소 인덱스
     return Math.floor((ORIGINAL_IMAGE_LENGTH * 3) / 2);
   }, [ORIGINAL_IMAGE_LENGTH]);
 
@@ -47,7 +47,6 @@ export default function useCarousel(options: CarouselOptions) {
   }, []);
 
   const timer = useRef<NodeJS.Timeout>();
-
   // @Note 슬라이드 이동 버튼 클릭 시 버튼 비활성화 시키기
   const onDisabledButton = () => {
     setIsDisabled(true);
@@ -58,9 +57,7 @@ export default function useCarousel(options: CarouselOptions) {
 
   useEffect(() => {
     return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
+      if (timer.current) clearTimeout(timer.current);
     };
   }, []);
 
@@ -92,8 +89,9 @@ export default function useCarousel(options: CarouselOptions) {
         }
         setCurrentSlide(slideCount);
       }, 500);
+
+      // @Note 바꿔치기 성공한 뒤에 animation을 바로 킴
       setTimeout(() => {
-        // @Note 바꿔치기 성공한 뒤에 animation을 바로 킴
         setIsAnimaion(true);
       }, 600);
     }
@@ -125,7 +123,6 @@ export default function useCarousel(options: CarouselOptions) {
   useEffect(() => {
     if (currentSlide > ORIGINAL_IMAGE_LENGTH) return;
     if (currentSlide <= -1 * ORIGINAL_IMAGE_LENGTH + slideCount) return;
-
     setIsCenterIndex(currentSlide - 1 + initialFocusSlideIndex);
   }, [currentSlide, ORIGINAL_IMAGE_LENGTH, initialFocusSlideIndex, slideCount]);
 
@@ -133,13 +130,20 @@ export default function useCarousel(options: CarouselOptions) {
     setIsFlowing(value);
   };
 
+  // @Note 마우스 스와이프, 터치 스와이프
   const [touchStartClientX, setTouchStartClientX] = useState(0);
   const [touchEndClientX, setTouchEndClientX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
+  // @Note 스와이프 이동 범위 설정 -> 이동 범위 이상으로 이동해야 슬라이드가 이동됨
   const moveRange = useMemo(() => {
     return Math.floor(slideItemWidth / 5);
   }, [slideItemWidth]);
+
+  // @Note 이동 된 거리
+  const touchMoveDistance = useMemo(() => {
+    return touchEndClientX - touchStartClientX;
+  }, [touchEndClientX, touchStartClientX]);
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     onChangeFlowing(false);
@@ -152,19 +156,11 @@ export default function useCarousel(options: CarouselOptions) {
     setTouchEndClientX(e.touches[0].clientX);
   };
 
-  const touchMoveDistance = useMemo(() => {
-    return touchEndClientX - touchStartClientX;
-  }, [touchEndClientX, touchStartClientX]);
-
-  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+  const onTouchEnd = () => {
     onChangeFlowing(true);
     setIsAnimaion(true);
-    if (touchMoveDistance > moveRange) {
-      onPrevSlide();
-    }
-    if (touchMoveDistance < moveRange * -1) {
-      onNextSlide();
-    }
+    if (touchMoveDistance > moveRange) onPrevSlide();
+    if (touchMoveDistance < moveRange * -1) onNextSlide();
     setTouchStartClientX(0);
     setTouchEndClientX(0);
   };
@@ -182,7 +178,7 @@ export default function useCarousel(options: CarouselOptions) {
     setTouchEndClientX(e.clientX);
   };
 
-  const onMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseOut = () => {
     setIsDragging(false);
     setIsAnimaion(true);
     setTouchEndClientX(0);
@@ -191,12 +187,8 @@ export default function useCarousel(options: CarouselOptions) {
 
   const onMouseUp = () => {
     setIsAnimaion(true);
-    if (touchMoveDistance > moveRange) {
-      onPrevSlide();
-    }
-    if (touchMoveDistance < moveRange * -1) {
-      onNextSlide();
-    }
+    if (touchMoveDistance > moveRange) onPrevSlide();
+    if (touchMoveDistance < moveRange * -1) onNextSlide();
     setTouchStartClientX(0);
     setTouchEndClientX(0);
     setIsDragging(false);
