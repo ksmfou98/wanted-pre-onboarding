@@ -1,7 +1,8 @@
-import { NIcon, SearchIcon, BellIcon, EtcIcon } from "assets/icons";
+import { SearchIcon, BellIcon, EtcIcon } from "assets/icons";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 import media from "styles/media";
+import NewBadge from "./NewBadge";
 
 function HeaderButtonGroup(): ReactElement {
   return (
@@ -13,9 +14,7 @@ function HeaderButtonGroup(): ReactElement {
 
         <ButtonItemStyled className="last">
           <BellIcon />
-          <NewCircleStyled>
-            <NIcon />
-          </NewCircleStyled>
+          <NewBadge top={-9} left={24} />
         </ButtonItemStyled>
 
         <ButtonItemStyled className="etc">
@@ -85,19 +84,6 @@ const ButtonItemStyled = styled.button`
   ${media.xlarge} {
     padding: 0 5px;
   }
-`;
-
-const NewCircleStyled = styled.span`
-  position: absolute;
-  top: -9px;
-  left: 24px;
-  background-color: rgb(51, 102, 255);
-  width: 13px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
 `;
 
 const ProfileBox = styled.div`
